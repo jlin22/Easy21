@@ -95,15 +95,22 @@ class Game:
 			sleep(1)
 			print(self.dealer)
 			print(self.agent)
-			command = 'hit'
+			print()
+			if self.dealer.get_value() < 17:
+				command = 'hit'
+			else:
+				command = 'stick'
 			self.dealer.action(command)
+			print('Dealer ' + command)
 			if (self.dealer.get_value() > 21 or self.dealer.get_value() < 1):
 				print(self.dealer)
 				print(self.agent)
+				print()
 				return 1 
-				
+
 		print(self.dealer)
 		print(self.agent)
+		print()
 		if self.dealer.get_value() > self.agent.get_value():
 			return -1
 		elif self.dealer.get_value() == self.agent.get_value():
