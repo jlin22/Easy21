@@ -10,12 +10,33 @@ class Card:
 	def __repr__(self):
 		return 'Card<value:' + str(self.value) + ', color:' + self.color + '>'
 	def set_color(self, color):
+		if color != 'black' or color != 'red':
+			pass
 		self.color = color
+	def get_value(self):
+		return 0
 
 class Player:
 	def __init__(self):
-		pass	
+		self.cards = []
+	def get_value(self):
+		sum = 0
+		for card in self.cards:
+			sum += card.get_value()
+		return sum
+	def add_card(self, card):
+		self.cards.append(card)
+	def action(self, command):
+		pass
 
+class Agent(Player):
+	def __init__(self):
+		super()	
+
+class Dealer(Player):
+	def __init__(self):
+		super()	
+		
 class Game:
 	def __init__(self):
 		self.dealer = Player()
@@ -25,8 +46,7 @@ def generate_card():
 	return randint(0, 10)
 
 def main():
-	game_over = False
-	while not game_over:
-		input()
+	card = Card()
+	print(card)
 
 main()
