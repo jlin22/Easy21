@@ -37,20 +37,31 @@ def montecarlo(N_zero, N_state, N_state_action, value, num_iters = 1000):
 		player_sum = Card().value
 		state = (dealer, player_sum)
 
+		states_visited = [] 
 		# epsilon greedy policy
 		epsilon = N_zero / (N_zero + N_state[dealer - 1, player_sum - 1])
 		while state != 'terminal':
 			if random() < epsilon: # epsilon
 				if random() < 1 / 2:
 					state, reward = step(state, 'stick')
+					states_visited.append((dealer, player_sum, 0))
 				else:
 					state, reward = step(state, 'hit')	
+					states_visited.append((dealer, player_sum, 1))
 			else: # greedy policy
 				if state[dealer - 1][player_sum - 1][0] > state[dealer - 1][player_sum - 1]:
 					# means return for stick > return for hit
 					state, reward = step(state, 'stick')
+					states_visited.append((dealer, player_sum, 0))
 				else:
 					state, reward = step(state, 'hit')
+					states_visited.append((dealer, player_sum, 1))
+
+		# here state = 'terminal', and reward = -1, 0, 1
+		for s in states_visited:
+			pass
+
+
 
 value = 0
 N_zero = 100
