@@ -23,32 +23,38 @@ def step(state, action):
 		player_sum += Card().true_value()
 		if player_sum > 21 or player_sum < 1:
 			next_state = 'terminal'
+		else:
+			next_state = (dealer, player_sum)
 		reward = -1 
 		return [next_state, reward]
 
 def montecarlo(N_zero, N_state, N_state_action, value, num_iters = 1000):
-	# always positive
-	dealer = Card().value 
-	player_sum = Card().value
-	state = (dealer, player_sum)
-	for i in range(num_iters):
-		# run an episode
+	# 0 = stick, 1 = hit
+	for i in range(num_iters): # run an episode
+
+		# initialize the game
+		dealer = Card().value 
+		player_sum = Card().value
+		state = (dealer, player_sum)
+
+		# epsilon greedy policy
 		epsilon = N_zero / (N_zero + N_state[dealer - 1, player_sum - 1])
 		while state != 'terminal':
-			# epsilon greedy
-			
-			if random() < epsilon:
+			if random() < epsilon: # epsilon
 				if random() < 1 / 2:
 					state, reward = step(state, 'stick')
 				else:
 					state, reward = step(state, 'hit')	
-			else:
-				pass
-				#be greedy
+			else: # greedy policy
+				if state[dealer - 1][player_sum - 1][0] > state[dealer - 1][player_sum - 1]:
+					# means return for stick > return for hit
+					state, reward = step(state, 'stick')
+				else:
+					state, reward = step(state, 'hit')
 
 value = 0
 N_zero = 100
 N_state = np.zeros((10, 21)) 
 N_state_action = np.zeros((10, 21, 2))
 Q = np.zeros((10, 21, 2))
-print(step((1, 21), 'stick'))
+montecarlo(N_zero, N_state, N_state_action, Q)
