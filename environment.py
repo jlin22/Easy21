@@ -9,6 +9,8 @@ def step(state, action):
 	elif action == 'stick':
 		while dealer < 17 and dealer > 0:
 			dealer += Card().true_value()	
+		print(dealer)
+		print(player_sum)
 		if dealer > 21 or dealer < 1:
 			return ['terminal', 1]
 		elif dealer > player_sum:
@@ -25,4 +27,4 @@ def step(state, action):
 		reward = -1 
 		return [next_state, reward]
 
-print(step([1, 1], 'stick'))
+print(step((1, 21), 'stick'))
