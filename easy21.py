@@ -78,6 +78,19 @@ class Game:
 		# game only ends when dealer is done
 		self.game_over = False
 
+
+	def print_state(self):
+		print(self.dealer)
+		print(self.agent)
+		print()
+
+	def get_state(self):
+		return [self.dealer.get_value(), self.agent.get_value()]
+
+	def step(self, state, action):
+		pass
+
+
 	def run(self):
 		while (self.agent.stick == False):		
 			print(self.dealer)
@@ -121,6 +134,7 @@ class Game:
 
 def main():
 	game = Game()
+	game.print_state()
 	print('Reward:' + str(game.run()))
 
 main()
