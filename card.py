@@ -14,3 +14,7 @@ class Card:
 			return - self.value
 		else:
 			return self.value
+
+for i in range(20):
+	card = Card()
+	print(card.color, card.true_value())

@@ -49,7 +49,7 @@ def montecarlo(N_zero, N_state, N_state_action, value, num_iters = 1000):
 					state, reward = step(state, 'hit')	
 					states_visited.append((dealer, player_sum, 1))
 			else: # greedy policy
-				if state[dealer - 1][player_sum - 1][0] > state[dealer - 1][player_sum - 1]:
+				if value[dealer - 1][player_sum - 1][0] > value[dealer - 1][player_sum - 1]:
 					# means return for stick > return for hit
 					state, reward = step(state, 'stick')
 					states_visited.append((dealer, player_sum, 0))
@@ -59,13 +59,12 @@ def montecarlo(N_zero, N_state, N_state_action, value, num_iters = 1000):
 
 		# here state = 'terminal', and reward = -1, 0, 1
 		for s in states_visited:
-			pass
+			dealer, player_sum, action = s		
+			value[dealer - 1][player_sum - 1][action] += reward
 
-
-
-value = 0
 N_zero = 100
 N_state = np.zeros((10, 21)) 
 N_state_action = np.zeros((10, 21, 2))
-Q = np.zeros((10, 21, 2))
-montecarlo(N_zero, N_state, N_state_action, Q)
+value = np.zeros((10, 21, 2))
+montecarlo(N_zero, N_state, N_state_action, Q, num_iters = 1)
+#print(Q)
